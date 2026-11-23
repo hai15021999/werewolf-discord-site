@@ -6,7 +6,7 @@ Built with [Astro](https://astro.build) as a fully static site (no JavaScript sh
 
 ## URLs
 
-`https://werewolf-discord.<domain>/<lang>/<page>/`, e.g. `/en/how-to-play/`, `/vi/privacy/`.
+`https://werewolf-discord.casbersolution.com/<lang>/<page>/`, e.g. `/en/how-to-play/`, `/vi/privacy/`.
 `/` sends Vietnamese browsers to `/vi/` and everyone else to `/en/`.
 
 | Page | Path |
@@ -53,12 +53,12 @@ The game facts on this site come from the bot repository (`werewolf-discord`): b
 ## Deploy (Vercel + GoDaddy)
 
 1. Vercel → **Add New → Project** → import this GitHub repository. Framework preset: **Astro** (detected). No environment variables are needed.
-2. Vercel → Project → **Settings → Domains** → add `werewolf-discord.<domain>`.
-3. GoDaddy → **My Products → DNS** for `<domain>` → **Add record**: type `CNAME`, name `werewolf-discord`, value as shown by Vercel (usually `cname.vercel-dns.com`), TTL default. Leave the other records alone.
+2. Vercel → Project → **Settings → Domains** → add `werewolf-discord.casbersolution.com`.
+3. GoDaddy → **My Products → DNS** for `casbersolution.com` → **Add record**: type `CNAME`, name `werewolf-discord`, value as shown by Vercel (usually `cname.vercel-dns.com`), TTL default. Leave the other records alone.
 4. Wait until Vercel shows the domain as valid (HTTPS is issued automatically).
-5. Discord Developer Portal → the bot's application → **General Information**: Privacy Policy URL `https://werewolf-discord.<domain>/en/privacy/`, Terms of Service URL `https://werewolf-discord.<domain>/en/terms/`.
+5. Discord Developer Portal → the bot's application → **General Information**: Privacy Policy URL `https://werewolf-discord.casbersolution.com/en/privacy/`, Terms of Service URL `https://werewolf-discord.casbersolution.com/en/terms/`.
 
-Canonical and `hreflang` links use `SITE_URL` if set, otherwise Vercel's production domain.
+Canonical and `hreflang` links use `https://werewolf-discord.casbersolution.com` (override with the `SITE_URL` environment variable).
 
 ## License
 

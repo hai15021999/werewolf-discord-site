@@ -1,11 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// Public URL of the site, used for canonical and hreflang links (omitted when unknown).
-// SITE_URL wins; on Vercel, VERCEL_PROJECT_PRODUCTION_URL is the production domain
-// (the custom domain once it is added).
-const vercelDomain = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-const site = process.env.SITE_URL || (vercelDomain ? `https://${vercelDomain}` : undefined);
+// Public URL of the site, used for canonical and hreflang links. SITE_URL overrides it.
+const site = process.env.SITE_URL || 'https://werewolf-discord.casbersolution.com';
 
 // https://astro.build/config
 export default defineConfig({
