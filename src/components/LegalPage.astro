@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import { BOT } from '../site.config';
+import { formatDate, t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  kind: 'privacy' | 'terms';
+}
+
+const { lang, kind } = Astro.props;
+
+const docs = import.meta.glob<{ Content: any }>('../content/legal/*.md', { eager: true });
+const doc = docs[`../content/legal/${kind}.${lang}.md`];
+if (!doc) throw new Error(`Missing legal page ${kind}.${lang}.md`);
+const { Content } = doc;
+
+const titles = {
+  privacy: { en: 'Privacy Policy', vi: 'Chính sách quyền riêng tư' },
+  terms: { en: 'Terms of Service', vi: 'Điều khoản dịch vụ' },
+};
+const descs = {
+  privacy: {
+    en: 'What data Wolfverine stores, why, for how long, and how to have it deleted.',
+    vi: 'Wolfverine lưu dữ liệu gì, vì sao, trong bao lâu và cách yêu cầu xoá.',
+  },
+  terms: {
+    en: 'The terms for using the Wolfverine Discord bot.',
+    vi: 'Điều khoản sử dụng bot Discord Wolfverine.',
+  },
+};
+---
+
+<Base lang={lang} route={kind} title={titles[kind][lang]} description={descs[kind][lang]}>
+  <article class="wrap page prose">
+    <h1>{titles[kind][lang]}</h1>
+    <p class="muted">
+      {t(lang, 'legal.effective')}: {formatDate(lang, BOT.legalEffectiveDate)}{' · '}
+      {t(lang, 'footer.contact')}: <a href={`mailto:${BOT.contactEmail}`}>{BOT.contactEmail}</a>
+    </p>
+    <Content />
+  </article>
+</Base>

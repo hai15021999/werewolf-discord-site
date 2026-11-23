@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import { COMMANDS } from '../../data/game';
+import { langStaticPaths, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langStaticPaths;
+const lang = Astro.params.lang as Lang;
+
+const copy = {
+  en: {
+    title: 'Commands',
+    desc: 'All Wolfverine slash commands and who can use them.',
+    lead: 'Everything is under <code>/werewolf</code> and works only inside a server. Replies to you are private; the game itself is announced in the channel.',
+    command: 'Command',
+    who: 'Who',
+    what: 'What it does',
+    buttons: 'Most actions are also buttons on the game message (Join, Start, My role, Night action, Vote…), so you rarely need to type.',
+    limit: 'To prevent spam, each player can do about 10 actions every 10 seconds.',
+  },
+  vi: {
+    title: 'Danh sách lệnh',
+    desc: 'Tất cả lệnh của Wolfverine và ai được dùng.',
+    lead: 'Mọi lệnh nằm trong <code>/werewolf</code> và chỉ dùng được trong server. Câu trả lời cho bạn là riêng tư; diễn biến ván được thông báo trong kênh.',
+    command: 'Lệnh',
+    who: 'Ai dùng',
+    what: 'Tác dụng',
+    buttons: 'Hầu hết thao tác cũng có nút bấm trên tin nhắn của ván (Tham gia, Bắt đầu, Vai của tôi, Hành động đêm, Bỏ phiếu…), nên hiếm khi phải gõ lệnh.',
+    limit: 'Để chống spam, mỗi người chơi thực hiện được khoảng 10 thao tác mỗi 10 giây.',
+  },
+}[lang];
+---
+
+<Base lang={lang} route="commands" title={copy.title} description={copy.desc}>
+  <div class="wrap">
+    <h1>{copy.title}</h1>
+    <p class="lead" set:html={copy.lead} />
+    <div class="table-wrap">
+      <table class="stack">
+        <thead>
+          <tr><th>{copy.command}</th><th>{copy.who}</th><th>{copy.what}</th></tr>
+        </thead>
+        <tbody>
+          {
+            COMMANDS.map((c) => (
+              <tr>
+                <td><code>{c.name}</code></td>
+                <td data-label={copy.who}>{c.who[lang]}</td>
+                <td>{c.what[lang]}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="page">
+      <p class="note">{copy.buttons}</p>
+      <p class="muted">{copy.limit}</p>
+    </div>
+  </div>
+</Base>

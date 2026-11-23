@@ -1,0 +1,22 @@
+---
+// Root: send visitors to their language (Vietnamese browsers → /vi/, everyone else → /en/).
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wolfverine</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+      location.replace(/^vi\b/i.test(l) ? '/vi/' : '/en/');
+    </script>
+    <meta http-equiv="refresh" content="1; url=/en/" />
+  </head>
+  <body style="background:#0f1222;color:#e8e9f3;font-family:system-ui,sans-serif">
+    <p><a href="/en/" style="color:#f2c14e">English</a> · <a href="/vi/" style="color:#f2c14e">Tiếng Việt</a></p>
+  </body>
+</html>

@@ -1,0 +1,86 @@
+---
+import Base from '../../layouts/Base.astro';
+import { BOT, DEFAULTS, INVITE_URL } from '../../site.config';
+import { href, langStaticPaths, t, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langStaticPaths;
+const lang = Astro.params.lang as Lang;
+
+const copy = {
+  en: {
+    title: 'Werewolf games on Discord',
+    desc: 'Wolfverine runs Werewolf (Mafia) games in your Discord channel. Slash commands and buttons, private roles, no DMs.',
+    h1: 'Play Werewolf in your Discord channel',
+    lead: `${BOT.name} is the moderator: it deals secret roles, runs the night and day, counts the votes and announces the winner. Everything happens with slash commands and buttons, right in your channel.`,
+    featuresTitle: 'Why play with Wolfverine',
+    features: [
+      ['Private roles, no DMs', 'Roles, night actions and Seer results are shown only to you, as private replies in the channel.'],
+      [`${DEFAULTS.minPlayers}–${DEFAULTS.maxPlayers} players`, 'Bigger games get more Werewolves plus the Seer, Guard, Hunter, Witch and Elder.'],
+      ['Timed phases', `Night ${DEFAULTS.nightSec}s, discussion ${DEFAULTS.daySec}s, voting ${DEFAULTS.votingSec}s by default. A phase ends early once everyone has acted.`],
+      ['Survives restarts', 'Games are saved and continue automatically if the bot restarts.'],
+      ['English and Vietnamese', 'Each server plays in one language.'],
+      ['Minimal permissions', 'Only View Channel and Send Messages. No message content is read.'],
+    ],
+    startTitle: 'Start in three steps',
+    steps: [
+      'Add the bot to your server with the button above.',
+      'In a text channel, type <code>/werewolf create</code>. Friends press <strong>Join</strong>.',
+      'The host presses <strong>Start</strong>. Check your role with <strong>My role</strong> and survive the night.',
+    ],
+  },
+  vi: {
+    title: 'Chơi Ma Sói trên Discord',
+    desc: 'Wolfverine điều khiển ván Ma Sói ngay trong kênh Discord của bạn. Dùng lệnh và nút bấm, vai trò bí mật, không gửi DM.',
+    h1: 'Chơi Ma Sói ngay trong kênh Discord',
+    lead: `${BOT.name} làm quản trò: chia vai bí mật, điều khiển đêm và ngày, đếm phiếu và công bố phe thắng. Mọi thứ diễn ra bằng lệnh và nút bấm ngay trong kênh của bạn.`,
+    featuresTitle: 'Vì sao chơi với Wolfverine',
+    features: [
+      ['Vai trò bí mật, không DM', 'Vai trò, hành động ban đêm và kết quả soi của Tiên Tri chỉ hiện cho riêng bạn, ngay trong kênh.'],
+      [`${DEFAULTS.minPlayers}–${DEFAULTS.maxPlayers} người chơi`, 'Ván càng đông càng nhiều Sói, thêm Tiên Tri, Bảo Vệ, Thợ Săn, Phù Thuỷ và Già Làng.'],
+      ['Pha có hẹn giờ', `Mặc định đêm ${DEFAULTS.nightSec}s, thảo luận ${DEFAULTS.daySec}s, bỏ phiếu ${DEFAULTS.votingSec}s. Pha kết thúc sớm khi mọi người đã hành động xong.`],
+      ['Không sợ khởi động lại', 'Ván chơi được lưu và tự chạy tiếp nếu bot khởi động lại.'],
+      ['Tiếng Anh và tiếng Việt', 'Mỗi server chơi bằng một ngôn ngữ.'],
+      ['Quyền tối thiểu', 'Chỉ cần Xem kênh và Gửi tin nhắn. Bot không đọc nội dung tin nhắn.'],
+    ],
+    startTitle: 'Bắt đầu trong ba bước',
+    steps: [
+      'Thêm bot vào server bằng nút phía trên.',
+      'Trong một kênh chat, gõ <code>/werewolf create</code>. Bạn bè bấm <strong>Tham gia</strong>.',
+      'Chủ phòng bấm <strong>Bắt đầu</strong>. Xem vai bằng nút <strong>Vai của tôi</strong> và cố sống sót qua đêm.',
+    ],
+  },
+}[lang];
+---
+
+<Base lang={lang} route="" title={copy.title} description={copy.desc}>
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <h1>{copy.h1}</h1>
+        <p class="lead">{copy.lead}</p>
+        <div class="actions">
+          <a class="btn primary" href={INVITE_URL} rel="noopener">{t(lang, 'cta.add')}</a>
+          <a class="btn" href={href(lang, 'how-to-play')}>{t(lang, 'cta.learn')}</a>
+        </div>
+      </div>
+      <img class="hero-art" src="/favicon.svg" alt="" width="320" height="320" />
+    </section>
+
+    <h2>{copy.featuresTitle}</h2>
+    <div class="grid">
+      {
+        copy.features.map(([title, text]) => (
+          <div class="card">
+            <h3>{title}</h3>
+            <p class="muted">{text}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <h2>{copy.startTitle}</h2>
+    <ol class="steps">
+      {copy.steps.map((s) => <li set:html={s} />)}
+    </ol>
+  </div>
+</Base>

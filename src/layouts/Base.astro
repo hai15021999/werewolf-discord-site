@@ -1,0 +1,98 @@
+---
+import '../styles/global.css';
+import { BOT, INVITE_URL } from '../site.config';
+import { LANGS, LANG_LABEL, NAV, href, t, type Lang, type Route } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  route: Route;
+  title: string;
+  description: string;
+}
+
+const { lang, route, title, description } = Astro.props;
+const fullTitle = route === '' ? `${BOT.name} — ${title}` : `${title} · ${BOT.name}`;
+const site = Astro.site;
+const abs = (path: string) => (site ? new URL(path, site).href : undefined);
+const canonical = abs(href(lang, route));
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0f1222" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {canonical && <meta property="og:url" content={canonical} />}
+    {
+      site &&
+        LANGS.map((l) => <link rel="alternate" hreflang={l} href={abs(href(l, route))} />)
+    }
+    {site && <link rel="alternate" hreflang="x-default" href={abs(href('en', route))} />}
+  </head>
+  <body>
+    <a class="skip" href="#main">{t(lang, 'skip')}</a>
+    <header class="site-header">
+      <div class="wrap bar">
+        <a class="brand" href={href(lang, '')}>
+          <img src="/favicon.svg" alt="" width="28" height="28" />
+          <span>{BOT.name}</span>
+        </a>
+        <nav aria-label="Main">
+          <ul>
+            {
+              NAV.filter((r) => r !== '').map((r) => (
+                <li>
+                  <a href={href(lang, r)} aria-current={r === route ? 'page' : undefined}>
+                    {t(lang, `nav.${r}`)}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <div class="langs" aria-label={t(lang, 'lang.switch')}>
+          {
+            LANGS.map((l) => (
+              <a
+                href={href(l, route)}
+                hreflang={l}
+                lang={l}
+                aria-current={l === lang ? 'true' : undefined}
+                title={LANG_LABEL[l]}
+              >
+                {l.toUpperCase()}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap foot">
+        <div>
+          <strong>{BOT.name}</strong>
+          <p class="muted">{t(lang, 'footer.note')}</p>
+        </div>
+        <ul>
+          <li><a href={INVITE_URL} rel="noopener">{t(lang, 'cta.add')}</a></li>
+          <li><a href={href(lang, 'privacy')}>{t(lang, 'nav.privacy')}</a></li>
+          <li><a href={href(lang, 'terms')}>{t(lang, 'nav.terms')}</a></li>
+          <li><a href={`mailto:${BOT.contactEmail}`}>{t(lang, 'footer.contact')}</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

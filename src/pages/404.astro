@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../i18n/ui';
+---
+
+<Base lang="en" route="" title="Page not found" description="This page does not exist.">
+  <div class="wrap page">
+    <h1>Page not found</h1>
+    <p class="lead">This page does not exist. · Trang này không tồn tại.</p>
+    <div class="actions">
+      <a class="btn primary" href={href('en', '')}>Home</a>
+      <a class="btn" href={href('vi', '')}>Trang chủ</a>
+    </div>
+  </div>
+</Base>

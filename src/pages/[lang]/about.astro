@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import { BOT, INVITE_URL } from '../../site.config';
+import { href, langStaticPaths, t, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langStaticPaths;
+const lang = Astro.params.lang as Lang;
+
+const copy = {
+  en: {
+    title: 'About',
+    desc: 'About Wolfverine, the Werewolf bot for Discord.',
+    body: [
+      `${BOT.name} is a free Discord bot that moderates games of Werewolf (also known as Mafia or “Ma Sói”). It was built so a group of friends can play without a human moderator.`,
+      'It is an independent hobby project, run by one person on their own server. It is not affiliated with Discord Inc.',
+      'The bot asks only for the permissions it needs (View Channel and Send Messages), does not read your messages, and keeps only what a game needs. Details are in the privacy policy.',
+    ],
+    status: 'Status',
+    statusText: 'Free to use. New roles and features are added over time.',
+    links: 'Links',
+    contact: 'Contact',
+  },
+  vi: {
+    title: 'Giới thiệu',
+    desc: 'Giới thiệu Wolfverine, bot Ma Sói cho Discord.',
+    body: [
+      `${BOT.name} là bot Discord miễn phí làm quản trò cho các ván Ma Sói (còn gọi là Mafia). Bot ra đời để một nhóm bạn có thể chơi mà không cần người làm quản trò.`,
+      'Đây là dự án cá nhân độc lập, do một người vận hành trên server riêng. Dự án không liên kết với Discord Inc.',
+      'Bot chỉ xin những quyền cần thiết (Xem kênh và Gửi tin nhắn), không đọc tin nhắn của bạn, và chỉ lưu những gì cần cho ván chơi. Chi tiết nằm trong chính sách quyền riêng tư.',
+    ],
+    status: 'Tình trạng',
+    statusText: 'Miễn phí. Vai trò và tính năng mới sẽ được bổ sung dần.',
+    links: 'Liên kết',
+    contact: 'Liên hệ',
+  },
+}[lang];
+---
+
+<Base lang={lang} route="about" title={copy.title} description={copy.desc}>
+  <div class="wrap page">
+    <h1>{copy.title}</h1>
+    {copy.body.map((p) => <p>{p}</p>)}
+
+    <h2>{copy.status}</h2>
+    <p>{copy.statusText}</p>
+
+    <h2>{copy.links}</h2>
+    <ul>
+      <li><a href={INVITE_URL} rel="noopener">{t(lang, 'cta.add')}</a></li>
+      <li><a href={href(lang, 'privacy')}>{t(lang, 'nav.privacy')}</a></li>
+      <li><a href={href(lang, 'terms')}>{t(lang, 'nav.terms')}</a></li>
+      <li>{copy.contact}: <a href={`mailto:${BOT.contactEmail}`}>{BOT.contactEmail}</a></li>
+    </ul>
+  </div>
+</Base>

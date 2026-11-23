@@ -1,0 +1,124 @@
+---
+import Base from '../../layouts/Base.astro';
+import { DEFAULTS } from '../../site.config';
+import { ROLES, WOLF_TIERS } from '../../data/game';
+import { langStaticPaths, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langStaticPaths;
+const lang = Astro.params.lang as Lang;
+const d = DEFAULTS;
+
+const copy = {
+  en: {
+    title: 'How to play',
+    desc: 'Rules of Werewolf on Wolfverine: phases, roles, voting and how each team wins.',
+    lead: 'Two teams, one village. The Werewolves hide among the villagers and hunt at night; the village talks and votes during the day.',
+    goalTitle: 'Who wins',
+    goals: [
+      ['village', 'Village', 'All Werewolves are dead.'],
+      ['wolf', 'Werewolves', 'Alive Werewolves are at least as many as everyone else alive.'],
+    ],
+    flowTitle: 'A round, step by step',
+    flow: [
+      `<strong>Lobby.</strong> Someone runs <code>/werewolf create</code>; others join (${d.minPlayers}–${d.maxPlayers} players). An unstarted lobby closes after ${d.lobbyMin} minutes.`,
+      '<strong>Start.</strong> The host starts the game. Everyone gets a secret role; the start message lists how many of each role are in play, never who has them.',
+      `<strong>Night</strong> (${d.nightSec}s). The Guard protects, the Werewolves pick a victim, the Seer inspects. Order: Guard → Werewolves → Witch → Seer.`,
+      `<strong>Witch</strong> (${d.witchSec}s, if she has a potion left). She may save the victim or poison someone.`,
+      `<strong>Dawn.</strong> Deaths are announced and the dead player’s role is revealed. A dying Hunter gets ${d.hunterSec}s to shoot.`,
+      `<strong>Day</strong> (${d.daySec}s). Discuss and accuse.`,
+      `<strong>Voting</strong> (${d.votingSec}s). Vote for one player. The player with the most votes is eliminated; on a tie nobody is. Then the next night begins.`,
+    ],
+    flowNote: 'Night and voting end early once everyone who can act has acted. Dead players cannot act and should stay silent. Times shown are defaults; <code>/werewolf help</code> shows the current values.',
+    rolesTitle: 'Roles',
+    fromPlayers: (n: number) => `from ${n} players`,
+    always: 'always',
+    team: { wolf: 'Werewolves', village: 'Village' },
+    tiersTitle: 'How many Werewolves',
+    players: 'Players',
+    wolves: 'Werewolves',
+  },
+  vi: {
+    title: 'Cách chơi',
+    desc: 'Luật chơi Ma Sói với Wolfverine: các pha, vai trò, bỏ phiếu và điều kiện thắng.',
+    lead: 'Hai phe, một ngôi làng. Ma Sói trà trộn vào dân làng và săn mồi ban đêm; ban ngày cả làng thảo luận và bỏ phiếu.',
+    goalTitle: 'Điều kiện thắng',
+    goals: [
+      ['village', 'Dân Làng', 'Tất cả Sói đã chết.'],
+      ['wolf', 'Ma Sói', 'Số Sói còn sống lớn hơn hoặc bằng số người còn lại.'],
+    ],
+    flowTitle: 'Diễn biến một vòng',
+    flow: [
+      `<strong>Phòng chờ.</strong> Một người gõ <code>/werewolf create</code>, những người khác tham gia (${d.minPlayers}–${d.maxPlayers} người). Phòng không bắt đầu sẽ tự đóng sau ${d.lobbyMin} phút.`,
+      '<strong>Bắt đầu.</strong> Chủ phòng bắt đầu ván. Mỗi người nhận một vai bí mật; tin nhắn bắt đầu cho biết có bao nhiêu người mỗi vai, nhưng không bao giờ nói ai giữ vai nào.',
+      `<strong>Ban đêm</strong> (${d.nightSec}s). Bảo Vệ bảo vệ, Sói chọn nạn nhân, Tiên Tri soi. Thứ tự: Bảo Vệ → Sói → Phù Thuỷ → Tiên Tri.`,
+      `<strong>Phù Thuỷ</strong> (${d.witchSec}s, nếu còn bình). Có thể cứu nạn nhân hoặc đầu độc một người.`,
+      `<strong>Bình minh.</strong> Công bố người chết và lật vai của họ. Thợ Săn khi chết có ${d.hunterSec}s để bắn.`,
+      `<strong>Ban ngày</strong> (${d.daySec}s). Thảo luận và buộc tội.`,
+      `<strong>Bỏ phiếu</strong> (${d.votingSec}s). Bầu một người. Người nhiều phiếu nhất bị loại; hoà phiếu thì không ai bị loại. Sau đó sang đêm mới.`,
+    ],
+    flowNote: 'Ban đêm và bỏ phiếu kết thúc sớm khi mọi người có quyền đã hành động. Người chết không được hành động và nên giữ im lặng. Thời gian trên là mặc định; <code>/werewolf help</code> cho biết giá trị hiện tại.',
+    rolesTitle: 'Các vai trò',
+    fromPlayers: (n: number) => `từ ${n} người`,
+    always: 'luôn có',
+    team: { wolf: 'Ma Sói', village: 'Dân Làng' },
+    tiersTitle: 'Số lượng Sói',
+    players: 'Số người chơi',
+    wolves: 'Số Sói',
+  },
+}[lang];
+---
+
+<Base lang={lang} route="how-to-play" title={copy.title} description={copy.desc}>
+  <div class="wrap">
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+
+    <h2>{copy.goalTitle}</h2>
+    <div class="grid">
+      {
+        copy.goals.map(([team, name, text]) => (
+          <div class="card">
+            <span class={`tag ${team}`}>{name}</span>
+            <p>{text}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="page">
+      <h2>{copy.flowTitle}</h2>
+      <ol class="steps">
+        {copy.flow.map((s) => <li set:html={s} />)}
+      </ol>
+      <p class="note" set:html={copy.flowNote} />
+    </div>
+
+    <h2>{copy.rolesTitle}</h2>
+    <div class="grid">
+      {
+        ROLES.map((r) => (
+          <div class="card">
+            <span class={`tag ${r.team}`}>{copy.team[r.team]}</span>
+            <h3>{r.name[lang]}</h3>
+            <p class="muted">{r.fromPlayers ? copy.fromPlayers(r.fromPlayers) : copy.always}</p>
+            <p>{r.ability[lang]}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="page">
+      <h2>{copy.tiersTitle}</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>{copy.players}</th><th>{copy.wolves}</th></tr>
+          </thead>
+          <tbody>
+            {WOLF_TIERS.map((tier) => <tr><td>{tier.players}</td><td>{tier.wolves}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</Base>

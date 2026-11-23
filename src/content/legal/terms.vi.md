@@ -1,0 +1,6 @@
+1. **Chấp nhận điều khoản.** Khi thêm Wolfverine ("Bot") vào server hoặc sử dụng Bot, bạn đồng ý với các điều khoản này và với [Chính sách quyền riêng tư](/vi/privacy/). Bạn cũng phải tuân theo [Điều khoản dịch vụ](https://discord.com/terms) và [Nguyên tắc cộng đồng](https://discord.com/guidelines) của Discord.
+2. **Dịch vụ.** Bot là dự án cá nhân miễn phí, được cung cấp **"nguyên trạng"**. Chúng tôi không cam kết Bot luôn hoạt động hay không có lỗi. Ván chơi có thể bị gián đoạn, thống kê có thể bị đặt lại hoặc mất.
+3. **Sử dụng hợp lệ.** Không lạm dụng Bot: không spam lệnh hoặc nút bằng công cụ tự động, không tìm cách phá, làm quá tải hay dịch ngược dịch vụ, và không dùng Bot để quấy rối người khác.
+4. **Hạn chế.** Chúng tôi có thể giới hạn, chặn hoặc gỡ quyền dùng Bot của người dùng hay server vi phạm điều khoản. Chúng tôi cũng có thể thay đổi tính năng hoặc dừng Bot bất cứ lúc nào.
+5. **Trách nhiệm.** Trong phạm vi pháp luật cho phép, người vận hành không chịu trách nhiệm về bất kỳ mất mát hay thiệt hại nào phát sinh từ việc dùng Bot.
+6. **Thay đổi.** Điều khoản có thể được cập nhật, và khi đó ngày hiệu lực ở đầu trang sẽ thay đổi. Nếu tiếp tục dùng Bot sau khi điều khoản thay đổi, bạn được xem là chấp nhận điều khoản mới.

@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import { FAQ } from '../../data/game';
+import { BOT } from '../../site.config';
+import { href, langStaticPaths, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langStaticPaths;
+const lang = Astro.params.lang as Lang;
+
+const copy = {
+  en: {
+    title: 'Help center',
+    desc: 'Answers to common questions and fixes for common problems with Wolfverine.',
+    lead: 'Common questions and quick fixes. Still stuck? Write to us.',
+    faq: 'Frequently asked questions',
+    contactTitle: 'Contact support',
+    contact: 'Email',
+    tip: 'Please include your server name, the channel, what you did and what the bot replied (a screenshot helps). For data deletion, include your Discord user ID.',
+    rules: 'Game rules',
+    rulesLink: 'How to play',
+  },
+  vi: {
+    title: 'Trung tâm trợ giúp',
+    desc: 'Giải đáp câu hỏi thường gặp và cách xử lý lỗi thường gặp với Wolfverine.',
+    lead: 'Câu hỏi thường gặp và cách xử lý nhanh. Vẫn chưa được? Hãy viết cho chúng tôi.',
+    faq: 'Câu hỏi thường gặp',
+    contactTitle: 'Liên hệ hỗ trợ',
+    contact: 'Email',
+    tip: 'Vui lòng ghi tên server, kênh, bạn đã làm gì và bot trả lời gì (ảnh chụp màn hình sẽ giúp ích). Nếu muốn xoá dữ liệu, hãy kèm Discord user ID của bạn.',
+    rules: 'Luật chơi',
+    rulesLink: 'Cách chơi',
+  },
+}[lang];
+---
+
+<Base lang={lang} route="help" title={copy.title} description={copy.desc}>
+  <div class="wrap page">
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+
+    <h2>{copy.faq}</h2>
+    {
+      FAQ.map((f) => (
+        <details>
+          <summary>{f.q[lang]}</summary>
+          <p set:html={f.a[lang]} />
+        </details>
+      ))
+    }
+
+    <p>{copy.rules}: <a href={href(lang, 'how-to-play')}>{copy.rulesLink}</a></p>
+
+    <h2 id="contact">{copy.contactTitle}</h2>
+    <p>{copy.contact}: <a href={`mailto:${BOT.contactEmail}`}>{BOT.contactEmail}</a></p>
+    <p class="muted">{copy.tip}</p>
+  </div>
+</Base>
